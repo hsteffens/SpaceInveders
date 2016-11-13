@@ -19,13 +19,13 @@ import com.sun.opengl.util.GLUT;
  */
 public class OpenGL implements GLEventListener,KeyListener {
 
-	private GL gl;
-	private GLU glu;
-	private GLUT glut;
-	private GLAutoDrawable glDrawable;
+	private static GL gl;
+	private static GLU glu;
+	private static GLUT glut;
+	private static GLAutoDrawable glDrawable;
 	
-	private double xEye, yEye, zEye;
-	private double xCenter, yCenter, zCenter;
+	private static double xEye, yEye, zEye;
+	private static double xCenter, yCenter, zCenter;
 
 	public OpenGL() {
 
@@ -35,80 +35,80 @@ public class OpenGL implements GLEventListener,KeyListener {
 		return gl;
 	}
 
-	public void setGl(GL gl) {
-		this.gl = gl;
+	public void setGl(GL openGl) {
+		gl = openGl;
 	}
 
 	public GLU getGlu() {
 		return glu;
 	}
 
-	public void setGlu(GLU glu) {
-		this.glu = glu;
+	public void setGlu(GLU gluGl) {
+		glu = gluGl;
 	}
 
 	public GLUT getGlut() {
 		return glut;
 	}
 
-	public void setGlut(GLUT glut) {
-		this.glut = glut;
+	public void setGlut(GLUT glutGL) {
+		glut = glutGL;
 	}
 
 	public GLAutoDrawable getGlDrawable() {
 		return glDrawable;
 	}
 
-	public void setGlDrawable(GLAutoDrawable glDrawable) {
-		this.glDrawable = glDrawable;
+	public void setGlDrawable(GLAutoDrawable drawable) {
+		glDrawable = drawable;
 	}
 
 	public double getxEye() {
 		return xEye;
 	}
 
-	public void setxEye(double xEye) {
-		this.xEye = xEye;
+	public void setxEye(double x) {
+		xEye = x;
 	}
 
 	public double getyEye() {
 		return yEye;
 	}
 
-	public void setyEye(double yEye) {
-		this.yEye = yEye;
+	public void setyEye(double y) {
+		yEye = y;
 	}
 
 	public double getzEye() {
 		return zEye;
 	}
 
-	public void setzEye(double zEye) {
-		this.zEye = zEye;
+	public void setzEye(double z) {
+		zEye = z;
 	}
 
 	public double getxCenter() {
 		return xCenter;
 	}
 
-	public void setxCenter(double xCenter) {
-		this.xCenter = xCenter;
+	public void setxCenter(double x) {
+		xCenter = x;
 	}
 
 	public double getyCenter() {
 		return yCenter;
 	}
 
-	public void setyCenter(double yCenter) {
-		this.yCenter = yCenter;
+	public void setyCenter(double y) {
+		yCenter = y;
 	}
 
 	public double getzCenter() {
 		return zCenter;
 	}
 
-	public void setzCenter(double zCenter) {
-		this.zCenter = zCenter;
+	public void setzCenter(double z) {
+		zCenter = z;
 	}
 
 	public void init(GLAutoDrawable drawable) {
@@ -119,10 +119,21 @@ public class OpenGL implements GLEventListener,KeyListener {
 		glDrawable.setGL(new DebugGL(gl));
 
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		xEye = 0.0f; 		yEye = 5.0f; 		zEye = -10.0f;
-		xCenter = 0.0f;		yCenter = 0.0f;		zCenter = 2.0f;
+		xEye = 0.0f; 		yEye = 5.0f; 		zEye = -15.0f;
+		xCenter = 0.0f;		yCenter = 2.5f;		zCenter = 0.0f;
+//		
+//		
+//		float posLight[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 		
-		ligarLuz();
+//		xEye = 0.0f; 		yEye = 5.0f; 		zEye = -20.0f;
+//		xCenter = 0.0f;		yCenter = 0.0f;		zCenter = 2.0f;
+		
+		
+		float posLight[] = { 5.0f, 5.0f, 10.0f, 0.0f };
+		
+		
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, posLight, 0);
+		gl.glEnable(GL.GL_LIGHT0);
 		
 	    gl.glEnable(GL.GL_CULL_FACE);
 //	    gl.glDisable(GL.GL_CULL_FACE);
@@ -155,12 +166,6 @@ public class OpenGL implements GLEventListener,KeyListener {
 	}
 
 	
-	private void ligarLuz() {
-		float posLight[] = { 5.0f, 5.0f, 10.0f, 0.0f };
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, posLight, 0);
-		gl.glEnable(GL.GL_LIGHT0);
-	}
-
 	@Override
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
 		

@@ -16,7 +16,8 @@ import br.furb.space.ambiente.OpenGL;
  */
 public class ObjetoGrafico extends OpenGL {
 
-	private int primitiva = GL.GL_LINE_STRIP;
+	private OBJModel obj;
+	
 	private float[] corObjeto = new float[]{0.0f,0.0f,0.0f};
 
 	private List<ObjetoGrafico> lObjetos = new ArrayList<ObjetoGrafico>();
@@ -30,6 +31,10 @@ public class ObjetoGrafico extends OpenGL {
 	private  Transformacao4D matrizTmpTranslacao = new Transformacao4D();
 	private  Transformacao4D matrizTmpTranslacaoInversa = new Transformacao4D();
 	private  Transformacao4D matrizTmpEscala = new Transformacao4D();		
+	
+	private float rotacionaX = 0.0f;
+	private float rotacionaY = 0.0f;
+	private float rotacionaZ = 0.0f;
 	
 	public BoundingBox getBbox() {
 		return bbox;
@@ -45,14 +50,6 @@ public class ObjetoGrafico extends OpenGL {
 
 	public void setlObjetos(List<ObjetoGrafico> lObjetos) {
 		this.lObjetos = lObjetos;
-	}
-
-	public int getPrimitiva() {
-		return primitiva;
-	}
-	
-	public void setPrimitiva(int primitiva) {
-		this.primitiva = primitiva;
 	}
 
 	public float[] getCorObjeto() {
@@ -128,6 +125,38 @@ public class ObjetoGrafico extends OpenGL {
 		this.arestas.remove(ponto);
 	}
 	
+	public OBJModel getObj() {
+		return obj;
+	}
+
+	public void setObj(OBJModel obj) {
+		this.obj = obj;
+	}
+	
+	public float getRotacionaX() {
+		return rotacionaX;
+	}
+
+	public void setRotacionaX(float rotacionaX) {
+		this.rotacionaX = rotacionaX;
+	}
+
+	public float getRotacionaY() {
+		return rotacionaY;
+	}
+
+	public void setRotacionaY(float rotacionaY) {
+		this.rotacionaY = rotacionaY;
+	}
+
+	public float getRotacionaZ() {
+		return rotacionaZ;
+	}
+
+	public void setRotacionaZ(float rotacionaZ) {
+		this.rotacionaZ = rotacionaZ;
+	}
+
 	/**
 	 * Adiciona um {@link ObjetoGrafico} a lista de {@link ObjetoGrafico} com as mesmas caracteristicas do objeto pai.
 	 * 
@@ -223,25 +252,17 @@ public class ObjetoGrafico extends OpenGL {
 	
 	
 	public void draw() {
-		
-//		getGl().glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE, getCorObjeto(), 0);
-//		getGl().glEnable(GL.GL_LIGHTING);
-//		float mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-//		float mat_shininess[] = { 50.0f };
-//		
-//		getGl().glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, mat_specular,0);
-//		getGl().glMaterialfv(GL.GL_FRONT, GL.GL_SHININESS, mat_shininess,0);
-		
-//		getGl().glEnable(GL.GL_COLOR_MATERIAL); // https://www.opengl.org/sdk/docs/man2/xhtml/glColorMaterial.xml
-		getGl().glColor3f(getCorObjeto()[0],getCorObjeto()[1],getCorObjeto()[2]);
-//		
 		getGl().glPushMatrix();
 
 		getGl().glScalef((float) getMatrizTmpEscala().GetDate()[0],(float) getMatrizTmpEscala().GetDate()[5],(float) getMatrizTmpEscala().GetDate()[10]);
 		getGl().glTranslated((float) getMatrizTmpTranslacao().GetDate()[12],(float) getMatrizTmpTranslacao().GetDate()[13],(float) getMatrizTmpTranslacao().GetDate()[14]);
+		getGl().glRotatef(getRotacionaX(), 1.0f, 0.0f, 0.0f);
+		getGl().glRotatef(getRotacionaY(), 0.0f, 1.0f, 0.0f);
+		getGl().glRotatef(getRotacionaZ(), 0.0f, 0.0f, 1.0f);
 		
-		getGlut().glutSolidCube(1.0f);
-
+		getObj().draw(getGl());
+		//		getGlut().glutSolidCube(1.0f);
+		
 		getGl().glPopMatrix();
 		getGl().glDisable(GL.GL_LIGHTING);
 		

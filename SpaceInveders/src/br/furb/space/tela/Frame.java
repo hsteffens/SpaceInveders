@@ -21,12 +21,12 @@ public class Frame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Mundo renderer;
 
-	private int janelaLargura  = 400, janelaAltura = 400;
+	private int janelaLargura  = 600, janelaAltura = 600;
 
 
 	public Frame() {		
 		super("Space Inveders 3D");   
-		setBounds(300,250,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do titulo da janela
+		setBounds(300,50,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do titulo da janela
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setBackground(Color.GRAY);

@@ -4,13 +4,13 @@ import javax.media.opengl.GL;
 
 import com.sun.opengl.util.GLUT;
 
+import br.furb.space.componentes.OBJModel;
 import br.furb.space.componentes.ObjetoGrafico;
 import br.furb.space.componentes.Transformacao4D;
 
 public class Alien extends ObjetoGrafico {
 
 	public Alien(GL gl,GLUT glut, float x, float z) {
-		setCorObjeto(new float[] { 0.0f, 1.0f, 0.0f});
 		
 		Transformacao4D transformacaoEsc = new Transformacao4D();
 		transformacaoEsc.atribuirEscala(4.0f, 4.0f, 4.0f);
@@ -18,15 +18,20 @@ public class Alien extends ObjetoGrafico {
 		Transformacao4D transformacaoTrans = new Transformacao4D();
 		transformacaoTrans.atribuirTranslacao(x, 0.0f, z);
 		
+		setRotacionaY(180);
+		
 		setMatrizTmpTranslacao(transformacaoTrans);
 		setMatrizTmpEscala(transformacaoEsc);
 		
 		setGl(gl);
 		setGlut(glut);
+		
+		setObj(new OBJModel("data/Aliene_OBJ", 1.5f, gl, true));
 	}
 	
 	@Override
 	public void draw() {
+		
 		getGl().glEnable(GL.GL_LIGHTING);
 		getGl().glEnable(GL.GL_LIGHT0);
 		
