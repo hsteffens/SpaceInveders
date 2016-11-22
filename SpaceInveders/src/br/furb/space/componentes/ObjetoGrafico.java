@@ -36,6 +36,8 @@ public class ObjetoGrafico extends OpenGL {
 	private float rotacionaY = 0.0f;
 	private float rotacionaZ = 0.0f;
 	
+	private boolean elegivelRemocao;
+	
 	public BoundingBox getBbox() {
 		return bbox;
 	}
@@ -157,6 +159,14 @@ public class ObjetoGrafico extends OpenGL {
 		this.rotacionaZ = rotacionaZ;
 	}
 
+	public boolean isElegivelRemocao() {
+		return elegivelRemocao;
+	}
+
+	public void setElegivelRemocao(boolean elegivelRemocao) {
+		this.elegivelRemocao = elegivelRemocao;
+	}
+
 	/**
 	 * Adiciona um {@link ObjetoGrafico} a lista de {@link ObjetoGrafico} com as mesmas caracteristicas do objeto pai.
 	 * 
@@ -214,7 +224,7 @@ public class ObjetoGrafico extends OpenGL {
 	 * @param angulo
 	 * @param ptoFixo
 	 */
-	public void rotacaoZPtoFixo(double angulo, Ponto4D ptoFixo) {
+	public void rotacaoYPtoFixo(double angulo, Ponto4D ptoFixo) {
 		matrizGlobal.atribuirIdentidade();
 
 		matrizTmpTranslacao.atribuirTranslacao(ptoFixo.obterX(),ptoFixo.obterY(),ptoFixo.obterZ());
@@ -242,6 +252,7 @@ public class ObjetoGrafico extends OpenGL {
 	@Override
 	public void display(GLAutoDrawable arg0) {
 		super.display(arg0);
+		
 		draw();
 	}
 	
@@ -252,16 +263,38 @@ public class ObjetoGrafico extends OpenGL {
 	
 	
 	public void draw() {
+		Transformacao4D matrizRotacao = new Transformacao4D();
+		matrizRotacao.atribuirRotacaoX(getRotacionaX());
+		matrizRotacao.atribuirRotacaoY(getRotacionaY());
+		matrizRotacao.atribuirRotacaoZ(getRotacionaZ());
+		
+		Transformacao4D transformMatrix = getMatrizGlobal().transformMatrix(getMatrizTmpEscala());
+		transformMatrix = transformMatrix.transformMatrix(getMatrizTmpTranslacao());
+		transformMatrix = transformMatrix.transformMatrix(matrizRotacao);
+		
+		setMatrizObjeto(transformMatrix);
+		
 		getGl().glPushMatrix();
-
-		getGl().glScalef((float) getMatrizTmpEscala().GetDate()[0],(float) getMatrizTmpEscala().GetDate()[5],(float) getMatrizTmpEscala().GetDate()[10]);
-		getGl().glTranslated((float) getMatrizTmpTranslacao().GetDate()[12],(float) getMatrizTmpTranslacao().GetDate()[13],(float) getMatrizTmpTranslacao().GetDate()[14]);
+		getGl().glScalef((float) getMatrizTmpEscala().getData()[0],(float) getMatrizTmpEscala().getData()[5],(float) getMatrizTmpEscala().getData()[10]);
+		getGl().glTranslated((float) getMatrizTmpTranslacao().getData()[12],(float) getMatrizTmpTranslacao().getData()[13],(float) getMatrizTmpTranslacao().getData()[14]);
 		getGl().glRotatef(getRotacionaX(), 1.0f, 0.0f, 0.0f);
 		getGl().glRotatef(getRotacionaY(), 0.0f, 1.0f, 0.0f);
 		getGl().glRotatef(getRotacionaZ(), 0.0f, 0.0f, 1.0f);
 		
 		getObj().draw(getGl());
-		//		getGlut().glutSolidCube(1.0f);
+		
+		BoundingBox boundingBox = null;
+		List<Tuple3> verts = getObj().getVerts();
+		for (Tuple3 tuple3 : verts) {
+			if (boundingBox == null) {
+				boundingBox = new BoundingBox(tuple3.getX() - 0.01, tuple3.getY() - 0.01, tuple3.getZ() - 0.01, tuple3.getX() + 0.01, tuple3.getY() - 0.01, tuple3.getZ() - 0.01);
+			}else{
+				boundingBox.atualizarBBox(tuple3.getX(), tuple3.getY(), tuple3.getZ());
+			}
+		}
+		
+		setBbox(boundingBox);
+//		getBbox().desenharOpenGLBBox(getGl(), 0.5f, 0.5f, 0.5f);
 		
 		getGl().glPopMatrix();
 		getGl().glDisable(GL.GL_LIGHTING);

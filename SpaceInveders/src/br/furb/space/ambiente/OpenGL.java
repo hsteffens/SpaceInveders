@@ -157,12 +157,7 @@ public class OpenGL implements GLEventListener,KeyListener {
 	    gl.glLoadIdentity();
 		gl.glViewport(0, 0, width, height);
 
-//		glu.gluOrtho2D(-30.0f, 30.0f, -30.0f, 30.0f);
-	    glu.gluPerspective(60, width/height, 0.1, 100);				// projecao Perpectiva 1 pto fuga 3D    
-//		gl.glFrustum (-5.0, 5.0, -5.0, 5.0, 10, 100);			// projecao Perpectiva 1 pto fuga 3D
-//	    gl.glOrtho(-30.0f, 30.0f, -30.0f, 30.0f, -30.0f, 30.0f);	// projecao Ortogonal 3D
-
-//		Debug();
+	    glu.gluPerspective(60, width/height, 0.1, 50);				// projecao Perpectiva 1 pto fuga 3D    
 	}
 
 	

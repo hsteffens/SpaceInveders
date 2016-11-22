@@ -2,11 +2,11 @@ package br.furb.space.ambiente;
 
 import javax.media.opengl.GL;
 
-import com.sun.opengl.util.GLUT;
-
 import br.furb.space.componentes.OBJModel;
 import br.furb.space.componentes.ObjetoGrafico;
 import br.furb.space.componentes.Transformacao4D;
+
+import com.sun.opengl.util.GLUT;
 
 public class Alien extends ObjetoGrafico {
 

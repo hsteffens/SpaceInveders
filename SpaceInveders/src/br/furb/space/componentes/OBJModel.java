@@ -39,8 +39,13 @@ public class OBJModel {
     private String modelNm; // without path or ".OBJ" extension
     private float maxSize; // for scaling the model
     private int modelDispList; // the model's display list
+    
 
-    public OBJModel(String nm, float sz, GL gl, boolean showDetails) {
+    public ArrayList<Tuple3> getVerts() {
+		return verts;
+	}
+
+	public OBJModel(String nm, float sz, GL gl, boolean showDetails) {
         modelNm = nm;
         maxSize = sz;
         initModelData(modelNm);

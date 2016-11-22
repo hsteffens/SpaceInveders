@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import br.furb.space.ambiente.Mundo;
+import br.furb.space.config.Configuration;
+import br.furb.space.config.EnNivelJogo;
 
 /**
  * Classe responsável por criar tela e suas respectivas configurações.
@@ -54,6 +56,8 @@ public class Frame extends JFrame{
 
 	public static void main(String[] args) {
 		new Frame().setVisible(true);
+		Configuration.getInstace(EnNivelJogo.getInstance(1));
+		
 	}
 
 }

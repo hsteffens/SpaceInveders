@@ -119,11 +119,11 @@ public final class Transformacao4D {
 		matriz[index] = value;
 	}
 
-	public double[] GetDate() {
+	public double[] getData() {
 		return matriz;	
 	}
 	
-	public void SetData(double[] data)
+	public void setData(double[] data)
 	{
 	    int i;
 
